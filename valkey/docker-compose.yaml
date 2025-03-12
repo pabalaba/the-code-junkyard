@@ -1,0 +1,24 @@
+volumes:
+  valkey-data:
+
+services:
+  valkey:
+    cpus: 4
+    image: valkey/valkey:8.0.2-alpine
+    volumes:
+      # Load local conf
+      - ./conf:/usr/local/etc/valkey/valkey.conf
+      # Save data in volume
+      - valkey-data:/data
+    environment:
+      - VALKEY_EXTRA_FLAGS=--save 60 1 --loglevel warning
+    ports:
+      - "6379:6379"
+    command: ["valkey-server", "/usr/local/etc/valkey/valkey.conf"]
+  valkey-test:
+    cpus: 4
+    build:
+      context: ./code
+      dockerfile: Dockerfile
+    depends_on:
+      - valkey
