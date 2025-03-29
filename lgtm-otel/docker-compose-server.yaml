@@ -1,20 +1,4 @@
 services:
-  host1.store1:
-    container_name: host1.store1
-    cpus: 1
-    build:
-      context: ./host
-      dockerfile: Dockerfile
-    ports:
-      - 9100
-  host1.store2:
-    container_name: host1.store2
-    cpus: 1
-    build:
-      context: ./host
-      dockerfile: Dockerfile
-    ports:
-      - 9100
   prometheus:
     image: prom/prometheus
     container_name: prometheus
@@ -24,10 +8,16 @@ services:
       - 9090:9090
     restart: unless-stopped
     volumes:
-      - ./prometheus:/etc/prometheus
-    depends_on:
-      - host1.store1
-      - host1.store2
+      - ./server/prometheus:/etc/prometheus
+  tempo:
+    image: grafana/tempo
+    container_name: tempo
+    command: [ "-config.file=/opt/tempo/tempo.yaml" ]
+    volumes:
+      - ./server/tempo/tempo.yaml:/opt/tempo/tempo.yaml
+    ports:
+      - "3200:3200"   # tempo
+      - "4318:4318"  # otlp http
   grafana:
     image: grafana/grafana
     container_name: grafana
@@ -38,6 +28,7 @@ services:
       - GF_SECURITY_ADMIN_USER=admin
       - GF_SECURITY_ADMIN_PASSWORD=grafana
     volumes:
-      - ./grafana:/etc/grafana/provisioning/datasources
+      - ./server/grafana:/etc/grafana/provisioning/datasources
     depends_on:
       - prometheus
+  

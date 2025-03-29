@@ -7,3 +7,8 @@ datasources:
   isDefault: true
   access: proxy
   editable: true
+- name: Tempo
+  type: tempo
+  url: http://tempo:3200
+  access: proxy
+  editable: true

@@ -1,0 +1,17 @@
+services:
+  host1.store1:
+    container_name: host1.store1
+    cpus: 1
+    build:
+      context: ./client/host
+      dockerfile: Dockerfile
+    ports:
+      - 9100
+  host1.store2:
+    container_name: host1.store2
+    cpus: 1
+    build:
+      context: ./client/host
+      dockerfile: Dockerfile
+    ports:
+      - 9100
