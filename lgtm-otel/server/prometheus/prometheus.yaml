@@ -30,5 +30,5 @@ scrape_configs:
     scrape_timeout: 10s
     static_configs:
       - targets:
-          - host1.store1:9100
-          - host1.store2:9100
+          - localhost:9100
+          - localhost:9101

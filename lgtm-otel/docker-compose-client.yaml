@@ -6,7 +6,7 @@ services:
       context: ./client/host
       dockerfile: Dockerfile
     ports:
-      - 9100
+      - 9100:9100
   host1.store2:
     container_name: host1.store2
     cpus: 1
@@ -14,4 +14,4 @@ services:
       context: ./client/host
       dockerfile: Dockerfile
     ports:
-      - 9100
+      - 9101:9100
